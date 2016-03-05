@@ -2,7 +2,10 @@
 
 It's recommended that you use Composer to install InterventionSDK.
 
-$ composer require bixev/intervention-sdk "^1.0"
+```bash
+composer require bixev/intervention-sdk "^1.0"
+```
+
 This will install SDK and all required dependencies.
 
 so each of your php scripts need to require composer autoload file
