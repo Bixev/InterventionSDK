@@ -1,6 +1,7 @@
 {
   "name": "bixev/intervention-sdk",
   "description": "BixevIntervention API SDK",
+  "license": "MIT",
   "require": {
     "php": ">=5.3"
   },
