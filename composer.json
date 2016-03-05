@@ -1,0 +1,12 @@
+{
+  "name": "bixev/intervention-sdk",
+  "description": "BixevIntervention API SDK",
+  "require": {
+    "php": ">=5.3"
+  },
+  "autoload": {
+    "psr-0": {
+      "Bixev\\InterventionSdk\\": "src/"
+    }
+  }
+}
