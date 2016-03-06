@@ -1,3 +1,5 @@
+This SDK aims to help you dealing with [BixevIntervention](https://intervention.bixev.com) APIs
+
 # Installation
 
 It's recommended that you use Composer to install InterventionSDK.
