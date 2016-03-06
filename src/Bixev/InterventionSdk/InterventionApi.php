@@ -9,7 +9,7 @@ namespace Bixev\InterventionSdk;
 class InterventionApi
 {
 
-    use \Bixev\InterventionSdk\Traits\LoggerTrait;
+    use \Bixev\LightLogger\LoggerTrait;
     use \Bixev\InterventionSdk\Traits\ClientTrait;
 
     // SINGLETON
@@ -23,7 +23,7 @@ class InterventionApi
      * @param string|null $autoconfigUrl
      * @return InterventionApi
      */
-    static public function init($autoconfigUrl = null, Logger\LoggerInterface $logger = null)
+    static public function init($autoconfigUrl = null, \Bixev\LightLogger\LoggerInterface $logger = null)
     {
         static::$_instance = new static($autoconfigUrl, $logger);
 
@@ -45,7 +45,7 @@ class InterventionApi
      */
     protected $_helpers;
 
-    public function __construct($autoconfigUrl = null, Logger\LoggerInterface $logger = null)
+    public function __construct($autoconfigUrl = null, \Bixev\LightLogger\LoggerInterface $logger = null)
     {
         $this->setLogger($logger);
         $this->setClient(new Client\Client($autoconfigUrl, $logger));
