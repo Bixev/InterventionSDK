@@ -3,7 +3,8 @@
   "description": "BixevIntervention API SDK",
   "license": "MIT",
   "require": {
-    "php": ">=5.3"
+    "php": ">=5.3",
+    "bixev/logger": "^1.0"
   },
   "autoload": {
     "psr-0": {
