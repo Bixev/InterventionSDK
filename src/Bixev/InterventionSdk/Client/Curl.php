@@ -36,7 +36,7 @@ class Curl
     protected $_postFields = [];
 
     /**
-     * @param \Bixev\InterventionSdk\Logger\LoggerInterface $logger
+     * @param \Bixev\LightLogger\LoggerInterface $logger
      */
     protected $_logger;
 
@@ -44,9 +44,9 @@ class Curl
      * @param string $url
      * @param string $method @see \Bixev\InterventionSdk\Client::METHOD_...
      * @param array $postFields
-     * @param \Bixev\InterventionSdk\Logger\LoggerInterface $logger
+     * @param \Bixev\LightLogger\LoggerInterface $logger
      */
-    public function __construct($url, $method = self::METHOD_GET, array $headers = [], array $postFields = [], \Bixev\InterventionSdk\Logger\LoggerInterface $logger = null)
+    public function __construct($url, $method = self::METHOD_GET, array $headers = [], array $postFields = [], \Bixev\LightLogger\LoggerInterface $logger = null)
     {
 
         if ($logger !== null) {

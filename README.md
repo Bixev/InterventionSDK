@@ -209,10 +209,10 @@ $scheduleWizardInput->date_max // ISO 8601 format, can be set by $intervention->
 
 # Log
 
-You can use a logger object within this sdk. It has just to implement `\Bixev\InterventionSdk\Logger\LoggerInterface`
+You can use a logger object within this sdk. It has just to implement `\Bixev\LightLogger\LoggerInterface`
 
 ```php
-class MyLogger implements \Bixev\InterventionSdk\Logger\LoggerInterface
+class MyLogger implements \Bixev\LightLogger\LoggerInterface
 {
     public function log($log)
     {

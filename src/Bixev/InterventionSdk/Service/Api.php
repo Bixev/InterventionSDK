@@ -4,10 +4,10 @@ namespace Bixev\InterventionSdk\Service;
 
 class Api
 {
-    use \Bixev\InterventionSdk\Traits\LoggerTrait;
+    use \Bixev\LightLogger\LoggerTrait;
     use \Bixev\InterventionSdk\Traits\ClientTrait;
 
-    public function __construct($client = null, \Bixev\InterventionSdk\Logger\LoggerInterface $logger = null)
+    public function __construct($client = null, \Bixev\LightLogger\LoggerInterface $logger = null)
     {
         $this->setClient($client);
         $this->setLogger($logger);

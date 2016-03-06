@@ -5,7 +5,7 @@ namespace Bixev\InterventionSdk\Client;
 class Client
 {
 
-    use \Bixev\InterventionSdk\Traits\LoggerTrait;
+    use \Bixev\LightLogger\LoggerTrait;
 
     /**
      * @var string|null
@@ -17,7 +17,7 @@ class Client
      */
     protected $_routes;
 
-    public function __construct($autoconfigUrl = null, \Bixev\InterventionSdk\Logger\LoggerInterface $logger = null)
+    public function __construct($autoconfigUrl = null, \Bixev\LightLogger\LoggerInterface $logger = null)
     {
         $this->_autoconfigUrl = $autoconfigUrl;
         $this->_routes = new \Bixev\InterventionSdk\Model\Routes\Routes();
