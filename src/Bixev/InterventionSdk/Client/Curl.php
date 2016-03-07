@@ -2,8 +2,6 @@
 
 namespace Bixev\InterventionSdk\Client;
 
-use BixevIntervention\Exception\Exception;
-
 class Curl
 {
     // cURL hex representation of version 7.30.0
