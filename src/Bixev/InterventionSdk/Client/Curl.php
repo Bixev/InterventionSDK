@@ -4,6 +4,9 @@ namespace Bixev\InterventionSdk\Client;
 
 class Curl
 {
+
+    use \Bixev\LightLogger\LoggerTrait;
+
     // cURL hex representation of version 7.30.0
     const NO_QUIRK_VERSION = 0x071E00;
 
@@ -30,26 +33,22 @@ class Curl
     protected $_curlHandler;
 
     protected $_url;
-    protected $_method = 'GET';
+    protected $_method = self::METHOD_GET;
+    protected $_headers = [];
     protected $_postFields = [];
 
     /**
-     * @param \Bixev\LightLogger\LoggerInterface $logger
-     */
-    protected $_logger;
-
-    /**
-     * @param string $url
-     * @param string $method @see \Bixev\InterventionSdk\Client::METHOD_...
+     * @param $url
+     * @param string $method
+     * @param array $headers
      * @param array $postFields
-     * @param \Bixev\LightLogger\LoggerInterface $logger
+     * @param \Bixev\LightLogger\LoggerInterface|null $logger
+     * @throws Exception
      */
     public function __construct($url, $method = self::METHOD_GET, array $headers = [], array $postFields = [], \Bixev\LightLogger\LoggerInterface $logger = null)
     {
 
-        if ($logger !== null) {
-            $this->_logger = $logger;
-        }
+        $this->_logger = $logger;
 
         $url = trim($url);
         if ($url == '') {
@@ -91,7 +90,6 @@ class Curl
 
         $this->init($ch);
 
-        curl_setopt($this->_curlHandler, CURLOPT_URL, $this->_url);
         curl_setopt($this->_curlHandler, CURLOPT_CUSTOMREQUEST, $this->_method);
 
         curl_setopt($this->_curlHandler, CURLOPT_FOLLOWLOCATION, false);
@@ -103,22 +101,29 @@ class Curl
         curl_setopt($this->_curlHandler, CURLOPT_ENCODING, 'gzip,deflate');
 
         $postFields = http_build_query($this->_postFields, '', '&');
-        curl_setopt($this->_curlHandler, CURLOPT_POSTFIELDS, $postFields);
+        $url = $this->_url;
+        if ($this->_method == static::METHOD_GET) {
+            if ($postFields != '') {
+                $url .= strpos($this->_url, '?') === false ? '?' : '&';
+                $url .= $postFields;
+            }
+        } else {
+            curl_setopt($this->_curlHandler, CURLOPT_POSTFIELDS, $postFields);
+        }
+        curl_setopt($this->_curlHandler, CURLOPT_URL, $url);
         $this->_headers[] = 'app-platform: api-client';
         curl_setopt($this->_curlHandler, CURLOPT_HTTPHEADER, $this->_headers);
 
-        if ($this->_logger !== null) {
-            $this->_logger->log(
-                [
-                    'cURL request' => [
-                        'url'     => $this->_url,
-                        'method'  => $this->_method,
-                        'headers' => $this->_headers,
-                        'body'    => $this->_postFields,
-                    ],
-                ]
-            );
-        }
+        $this->log(
+            [
+                'cURL request' => [
+                    'url'     => $url,
+                    'method'  => $this->_method,
+                    'headers' => $this->_headers,
+                    'body'    => $this->_postFields,
+                ],
+            ]
+        );
     }
 
     public function processResponse($response)
@@ -133,17 +138,15 @@ class Curl
         list($responseHeaders, $responseBody) = $this->parseHttpResponse($response, $headerSize);
         $responseCode = curl_getinfo($this->_curlHandler, CURLINFO_HTTP_CODE);
 
-        if ($this->_logger !== null) {
-            $this->_logger->log(
-                [
-                    'cURL response' => [
-                        'code'    => $responseCode,
-                        'headers' => $responseHeaders,
-                        'body'    => $responseBody,
-                    ],
-                ]
-            );
-        }
+        $this->log(
+            [
+                'cURL response' => [
+                    'code'    => $responseCode,
+                    'headers' => $responseHeaders,
+                    'body'    => $responseBody,
+                ],
+            ]
+        );
 
         if ($responseCode >= 300) {
             $responseArray = json_decode($responseBody, true);
@@ -229,7 +232,7 @@ class Curl
 
     /**
      * Parse out headers from raw headers
-     * @param rawHeaders array or string
+     * @param mixed array or string
      * @return array
      */
     public function getHttpResponseHeaders($rawHeaders)
