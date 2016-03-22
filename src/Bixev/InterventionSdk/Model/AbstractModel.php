@@ -81,13 +81,14 @@ abstract class AbstractModel
 
     }
 
-    protected function checkDateFields(array $fieldNames = []){
+    protected function checkDateFields(array $fieldNames = [])
+    {
         foreach ($fieldNames as $dateField) {
-            if (isset($data[$dateField]) && !$this->checkDateIso8601($data[$dateField])) {
+            if (isset($data[$dateField]) && $data[$dateField] != '' && !$this->checkDateIso8601($data[$dateField])) {
                 throw new \Bixev\InterventionSdk\Exception($dateField . ' does not match the iso 8601 pattern');
             }
-            if ($this->$dateField !== null && !$this->checkDateIso8601($this->$dateField)) {
-                throw new \Bixev\InterventionSdk\Exception($dateField . 'scheduled_start_at does not match the iso 8601 pattern');
+            if ($this->$dateField !== null && $this->$dateField != '' && !$this->checkDateIso8601($this->$dateField)) {
+                throw new \Bixev\InterventionSdk\Exception($dateField . ' does not match the iso 8601 pattern');
             }
         }
     }
