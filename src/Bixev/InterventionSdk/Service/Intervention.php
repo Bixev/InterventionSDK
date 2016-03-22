@@ -53,7 +53,7 @@ class Intervention extends AbstractService
     public function read(\Bixev\InterventionSdk\Model\Intervention $interventionModel)
     {
         if($interventionModel->cref === null){
-            throw new \Bixev\InterventionSdk\Exception('Required parameter intervention.cref to update intervention');
+            throw new \Bixev\InterventionSdk\Exception('Required parameter intervention.cref to read intervention');
         }
         $result = $this->_callClient(\Bixev\InterventionSdk\Model\Routes\Route::IDENTIFIER_INTERVENTION_READ, $interventionModel);
         if (!is_array($result) || !isset($result['intervention'])) {

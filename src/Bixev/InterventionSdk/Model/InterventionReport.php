@@ -14,8 +14,9 @@ class InterventionReport extends AbstractModel
     public $start_at;
     public $end_at;
     public $pdf_b64;
+    public $withPdf;
 
-    protected $_properties = array('comment', 'status', 'reported_at', 'start_at', 'end_at', 'pdf_b64');
+    protected $_properties = array('comment', 'status', 'reported_at', 'start_at', 'end_at', 'pdf_b64', 'withPdf');
 
     /**
      * @var Intervention
