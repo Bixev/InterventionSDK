@@ -8,7 +8,7 @@ abstract class AbstractCollection extends AbstractModel implements \ArrayAccess,
     /**
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * @var int Iterator implementation
@@ -67,12 +67,14 @@ abstract class AbstractCollection extends AbstractModel implements \ArrayAccess,
     public function current()
     {
         $keys = array_keys($this->_data);
+
         return $this->_data[$keys[$this->_iteratorPosition]];
     }
 
     public function key()
     {
         $keys = array_keys($this->_data);
+
         return $keys[$this->_iteratorPosition];
     }
 
@@ -84,12 +86,13 @@ abstract class AbstractCollection extends AbstractModel implements \ArrayAccess,
     public function valid()
     {
         $keys = array_keys($this->_data);
-        return isset($keys[$this->_iteratorPosition]) && isset($this->_data[$keys[$this->_iteratorPosition]]);
+
+        return array_key_exists($this->_iteratorPosition, $keys) && array_key_exists($keys[$this->_iteratorPosition], $this->_data);
     }
 
     //#####          #####//
 
-    public function hydrate(array $data = array())
+    public function hydrate(array $data = [])
     {
         foreach ($data as $key => $value) {
             $this[$key] = $value;
@@ -101,10 +104,11 @@ abstract class AbstractCollection extends AbstractModel implements \ArrayAccess,
      */
     public function toArray()
     {
-        $return = array();
+        $return = [];
         foreach ($this as $key => $value) {
             $return[$key] = $value;
         }
+
         return $return;
     }
 
