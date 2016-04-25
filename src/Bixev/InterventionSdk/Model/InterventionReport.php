@@ -24,7 +24,7 @@ class InterventionReport extends AbstractModel
     public $intervention;
 
     /**
-     * @var InterventionCustomFields
+     * @var InterventionReportCustomFields
      */
     public $custom_fields;
 
