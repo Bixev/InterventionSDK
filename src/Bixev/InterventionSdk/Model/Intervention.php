@@ -6,11 +6,13 @@ class Intervention extends AbstractModel
 {
     const MODEL_IDENTIFIER = 'intervention';
     const STATUS_PENDING = 'pending';
+    const STATUS_IN_PROGRESS = 'in_progress';
     const STATUS_AUTOASSIGN_PENDING = 'autoassign_pending';
     const STATUS_CANCELED = 'canceled';
     const STATUS_TERMINATED = 'terminated';
     static protected $STATUS_ALLOWED = [
         self::STATUS_PENDING,
+        self::STATUS_IN_PROGRESS,
         self::STATUS_AUTOASSIGN_PENDING,
         self::STATUS_CANCELED,
         self::STATUS_TERMINATED,
