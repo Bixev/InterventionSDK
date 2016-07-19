@@ -7,6 +7,10 @@ class InterventionReport extends AbstractModel
     const MODEL_IDENTIFIER = 'intervention.report';
     const STATUS_OK = 'ok';
     const STATUS_KO = 'ko';
+    static protected $STATUS_ALLOWED = [
+        self::STATUS_OK,
+        self::STATUS_KO,
+    ];
 
     public $reported_at;
     public $comment;
@@ -69,4 +73,12 @@ class InterventionReport extends AbstractModel
         }
     }
 
+    protected function checkContent(array $data = null)
+    {
+        if (isset($data['status']) && !in_array($data['status'], static::$STATUS_ALLOWED)) {
+            throw new \Bixev\Rest\Exception\Rest\E400BadRequest(
+                'Invalid parameter "status", has to be one of' . implode(',', static::$STATUS_ALLOWED)
+            );
+        }
+    }
 }

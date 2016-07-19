@@ -9,6 +9,12 @@ class Intervention extends AbstractModel
     const STATUS_AUTOASSIGN_PENDING = 'autoassign_pending';
     const STATUS_CANCELED = 'canceled';
     const STATUS_TERMINATED = 'terminated';
+    static protected $STATUS_ALLOWED = [
+        self::STATUS_PENDING,
+        self::STATUS_AUTOASSIGN_PENDING,
+        self::STATUS_CANCELED,
+        self::STATUS_TERMINATED,
+    ];
 
     public $id;
     public $cref;
@@ -114,6 +120,10 @@ class Intervention extends AbstractModel
 
     public function hydrate(array $data = [])
     {
+        if (isset($data['status']) && $data['status'] == 'cancelled') {
+            // handle 2 forms "cancelled"/"canceled"
+            $data['status'] = static::STATUS_CANCELED;
+        }
         parent::hydrate($data);
         if (isset($data['intervention_type'])) {
             $this->intervention_type = new InterventionType;
@@ -156,6 +166,11 @@ class Intervention extends AbstractModel
     {
         $dateFields = ['scheduled_start_at', 'scheduled_end_at', 'appointment_at'];
         $this->checkDateFields($dateFields);
+        if (isset($data['status']) && !in_array($data['status'], static::$STATUS_ALLOWED)) {
+            throw new \Bixev\Rest\Exception\Rest\E400BadRequest(
+                'Invalid parameter "status", has to be one of' . implode(',', static::$STATUS_ALLOWED)
+            );
+        }
     }
 
     public function replaceRouteFields(Routes\Route $route)
